@@ -25,7 +25,7 @@ Projekt zawiera również plik konfigarcyjny bazy danych - plik docker-compose.
 - umieścić kod z publicznego repozytorium GitHub 
 `az webapp deployment source config --name usPlDevAzure-webapp --resource-group usPlDevAzure-group --repo-url https://github.com/andairka/usPlDevAzure-webapp --branch main --manual-integration`
 
-- aby wyświetlić aplikację webową, skopiuj wynik następującego polecenia do przeglądarki
+- aby wyświetlić aplikację webową, skopiuj wynik następującego polecenia do przeglądarki (można pominąc ten krok)
 `echo http://usPlDevAzure-webapp.azurewebsites.net`
 
 ### SERVER
@@ -41,6 +41,9 @@ Projekt zawiera również plik konfigarcyjny bazy danych - plik docker-compose.
 
 - umieścić kod z publicznego repozytorium GitHub 
 `az webapp deployment source config --name usPlDevAzure-server --resource-group usPlDevAzure-group --repo-url https://github.com/andairka/usPlDevAzure-server --branch main --manual-integration`
+
+- aby wyświetlić aplikację webową, skopiuj wynik następującego polecenia do przeglądarki (można pominąc ten krok)
+`echo http://usPlDevAzure-server.azurewebsites.net`
 
 ### DELETE
 - usuwanie resource group
