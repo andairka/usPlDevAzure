@@ -14,16 +14,16 @@ gitrepo=https://github.com/andairka/usPlDevAzure-webapp
 webappname=usPlDevAzure-webapp
 
 - stworzenie resource group.
-az group create --location westeurope --name usPlDevAzure-webapp-group
+`az group create --location westeurope --name usPlDevAzure-webapp-group`
 
-- stworzenie App Service plan w `FREE` poziomie.
-az appservice plan create --name $webappname --resource-group usPlDevAzure-webapp-group --sku FREE
+- stworzenie App Service plan w darmowym poziomie.
+`az appservice plan create --name $webappname --resource-group usPlDevAzure-webapp-group --sku FREE`
 
 - stworzenie a web app.
-az webapp create --name $webappname --resource-group usPlDevAzure-webapp-group --plan $webappname
+`az webapp create --name $webappname --resource-group usPlDevAzure-webapp-group --plan $webappname`
 
 - umieścić kod z publicznego repozytorium GitHub 
-az webapp deployment source config --name $webappname --resource-group usPlDevAzure-webapp-group --repo-url $gitrepo --branch main --manual-integration
+`az webapp deployment source config --name $webappname --resource-group usPlDevAzure-webapp-group --repo-url $gitrepo --branch main --manual-integration`
 
 - aby wyświetlić aplikację webową, skopiuj wynik następującego polecenia do przeglądarki
-echo http://$webappname.azurewebsites.net
+`echo http://$webappname.azurewebsites.net`
