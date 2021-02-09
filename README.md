@@ -27,3 +27,22 @@ Projekt zawiera również plik konfigarcyjny bazy danych - plik docker-compose.
 
 - aby wyświetlić aplikację webową, skopiuj wynik następującego polecenia do przeglądarki
 `echo http://usPlDevAzure-webapp.azurewebsites.net`
+
+### SERVER
+- dane
+`gitrepo=https://github.com/andairka/usPlDevAzure-server`
+`webappname=usPlDevAzure-server`
+
+- stworzenie resource group.
+`az group create --location westeurope --name usPlDevAzure-server-group`
+
+- stworzenie App Service plan w darmowym poziomie.
+`az appservice plan create --name usPlDevAzure-server --resource-group usPlDevAzure-server-group --sku FREE`
+
+- stworzenie a web app.
+`az webapp create --name usPlDevAzure-server --resource-group usPlDevAzure-server-group --plan usPlDevAzure-server`
+
+- umieścić kod z publicznego repozytorium GitHub 
+`az webapp deployment source config --name usPlDevAzure-server --resource-group usPlDevAzure-server-group --repo-url https://github.com/andairka/usPlDevAzure-server --branch main --manual-integration`
+
+### DELETE
