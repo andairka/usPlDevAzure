@@ -35,7 +35,8 @@ Proszę się upewnić, ze Docker jest zainstalowany na maszynie, z której się 
 `az postgres server create --resource-group usPlDevAzure-group --name usPlDevAzure-serverdb  --location westeurope --admin-user myadmin --admin-password Az123456789 --sku-name GP_Gen5_2`
 
 zanotuj `"administratorLogin": "myadmin"` oraz`"fullyQualifiedDomainName": "uspldevazure-serverdb.postgres.database.azure.com"`
-
+- Dodaj zasade logowania - pozwolenie na adresy ip przychodzace
+`az postgres server firewall-rule create -g usPlDevAzure-group -s usPlDevAzure-serverdb -n allowip --start-ip-address 0.0.0.0 --end-ip-address 255.255.255.255`
 - stworzenie PostgreSQL bazy danych
 `az postgres db create --resource-group usPlDevAzure-group --server-name usPlDevAzure-serverdb --name uspldevazurdb`
   
