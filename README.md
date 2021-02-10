@@ -23,6 +23,12 @@ Proszę się upewnić, ze Docker jest zainstalowany na maszynie, z której się 
 
 - logowanie do rejestru kontenerów
 `az acr login --name uspldevazurcr`
+
+- sciagniecie repozytorium na loklana maszyne
+`git clone https://github.com/andairka/usPlDevAzure`
+
+- Puschujemy obrazy do acr
+`docker-compose -f us-pi-dev-azure-dc-11.yml push`
   
 ### WEBAPP
 - dane
