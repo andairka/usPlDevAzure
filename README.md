@@ -24,6 +24,9 @@ Proszę się upewnić, ze Docker jest zainstalowany na maszynie, z której się 
 - logowanie do rejestru kontenerów
 `az acr login --name uspldevazurcr`
 
+`az acr build --image uspldevazuredi: --registry usPlDevAzurcr --file Dockerfile . `
+`az acr run --registry myContainerRegistry008 --cmd '$Registry/sample/hello-world:v1' /dev/null`
+
 - sciagniecie repozytorium na loklana maszyne
 `git clone https://github.com/andairka/usPlDevAzure`
 
