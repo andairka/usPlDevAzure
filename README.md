@@ -8,8 +8,19 @@ Projekt zawiera również plik konfigarcyjny bazy danych - plik docker-compose.
 ## Instrukcja
 `az login` logowanie do Azure Portal
 
+### RESOURCE GROUP
+
 - stworzenie resource group
 `az group create --location westeurope --name usPlDevAzure-group`
+
+### POSTGRES
+- stworzenie usługi ACR
+`az acr create --resource-group usPlDevAzure-group --name usPlDevAzur-cr --sku Basic`
+
+- nalezy zanotować wartość `loginServer`, prawdopodobie `usPlDevAzur-cr.azurecr.io`
+
+- logowanie do rejestru kontenerów
+`az acr login --name usPlDevAzur-cr`
   
 ### WEBAPP
 - dane
@@ -44,15 +55,6 @@ Projekt zawiera również plik konfigarcyjny bazy danych - plik docker-compose.
 
 - aby wyświetlić aplikację webową, skopiuj wynik następującego polecenia do przeglądarki (można pominąc ten krok)
 `echo http://usPlDevAzure-server.azurewebsites.net`
-
-### POSTGRES
-- stworzenie usługi ACR
-`az acr create --resource-group usPlDevAzure-group --name usPlDevAzur-cr --sku Basic`
-
-- nalezy zanotować wartość `loginServer`, prawdopodobie `usPlDevAzur-cr.azurecr.io`
-
-- logowanie do rejestru kontenerów
-`az acr login --name usPlDevAzur-cr`
 
 ### DELETE
 - usuwanie resource group
