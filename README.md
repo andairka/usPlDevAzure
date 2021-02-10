@@ -32,7 +32,7 @@ Proszę się upewnić, ze Docker jest zainstalowany na maszynie, z której się 
   
 ### BAZA DANYCH POSTGRES
 - Utwórz serwer Azure Database for PostgreSQL
-`az postgres server create --resource-group usPlDevAzure-group --name usPlDevAzure-serverdb  --location westus --admin-user myadmin --admin-password Az123456789 --sku-name GP_Gen5_2`
+`az postgres server create --resource-group usPlDevAzure-group --name usPlDevAzure-serverdb  --location westeurope --admin-user myadmin --admin-password Az123456789 --sku-name GP_Gen5_2`
 
 zanotuj `"administratorLogin": "myadmin"` oraz`"fullyQualifiedDomainName": "uspldevazure-serverdb.postgres.database.azure.com"`
 
