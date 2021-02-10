@@ -15,12 +15,12 @@ Projekt zawiera również plik konfigarcyjny bazy danych - plik docker-compose.
 
 ### POSTGRES
 - stworzenie usługi ACR
-`az acr create --resource-group usPlDevAzure-group --name usPlDevAzur-cr --sku Basic`
+`az acr create --resource-group usPlDevAzure-group --name usPlDevAzurcr --sku Basic`
 
-- nalezy zanotować wartość `loginServer`, prawdopodobie `usPlDevAzur-cr.azurecr.io`
+- nalezy zanotować wartość `loginServer`, prawdopodobie `usPlDevAzurcr.azurecr.io`
 
 - logowanie do rejestru kontenerów
-`az acr login --name usPlDevAzur-cr`
+`az acr login --name usPlDevAzurcr`
   
 ### WEBAPP
 - dane
