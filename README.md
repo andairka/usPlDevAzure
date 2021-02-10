@@ -30,6 +30,15 @@ Proszę się upewnić, ze Docker jest zainstalowany na maszynie, z której się 
 - Puschujemy obrazy do acr
 `docker-compose -f us-pi-dev-azure-dc-11.yml push`
   
+### BAZA DANYCH POSTGRES
+- Utwórz serwer Azure Database for PostgreSQL
+`az postgres server create --resource-group usPlDevAzure-group --name usPlDevAzure-serverdb  --location westus --admin-user myadmin --admin-password Az123456789 --sku-name GP_Gen5_2`
+
+zanotuj `"administratorLogin": "myadmin"` oraz`"fullyQualifiedDomainName": "uspldevazure-serverdb.postgres.database.azure.com"`
+
+- stworzenie PostgreSQL bazy danych
+`az postgres db create --resource-group usPlDevAzure-group --server-name usPlDevAzure-serverdb --name uspldevazurdb`
+  
 ### WEBAPP
 - dane
 `gitrepo=https://github.com/andairka/usPlDevAzure-webapp`
