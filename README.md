@@ -15,7 +15,7 @@ Projekt zawiera również plik konfigarcyjny bazy danych - plik docker-compose.
 
 ### POSTGRES
 - stworzenie usługi ACR
-`az acr create --resource-group usPlDevAzure-group --name usPlDevAzurcr --sku Basic`
+`az acr create --resource-group usPlDevAzure-group --name usPlDevAzurcr --sku Basic` --admin-enabled true
 
 - nalezy zanotować wartość `loginServer`, u mnie "loginServer": `uspldevazurcr.azurecr.io`
 
@@ -24,10 +24,30 @@ Proszę się upewnić, ze Docker jest zainstalowany na maszynie, z której się 
 - logowanie do rejestru kontenerów
 `az acr login --name uspldevazurcr`
 
-`az acr build --image uspldevazuredi: --registry usPlDevAzurcr --file Dockerfile . `
+#### Server part
+docker build . -t uspldevazure-serverdc  
+docker tag uspldevazure-serverdc:latest uspldevazurcr.azurecr.io/uspldevazure-serverdc
+
+docker push uspldevazurcr.azurecr.io/uspldevazure-serverdc
 
 
-`az acr run --registry myContainerRegistry008 --cmd '$Registry/sample/hello-world:v1' /dev/null`
+docker run --rm -it -p 3000:3000/tcp uspldevazure-serverdc:latest
+
+
+az container create \
+--name uspldevazure-serverdc \
+--resource-group usPlDevAzure-group \
+--cpu 1 \
+--memory 1 \
+--dns-name-label uspldevazure-serverdc \
+--ports 80 \
+--image uspldevazurcr.azurecr.io/uspldevazure-serverdc:lastest \
+--registry-login-server uspldevazurcr.azurecr.io \
+--registry-username "${ContainerRegistryUsername}" \
+--registry-password "${ContainerRegistryPassword}"
+
+docker run -it --rm -p 3000:3000/tcp uspldevazurcr.azurecr.io/uspldevazure-serverdc
+
 
 - sciagniecie repozytorium na loklana maszyne
 `git clone https://github.com/andairka/usPlDevAzure`
