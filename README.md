@@ -25,6 +25,8 @@ Proszę się upewnić, ze Docker jest zainstalowany na maszynie, z której się 
 `az acr login --name uspldevazurcr`
 
 `az acr build --image uspldevazuredi: --registry usPlDevAzurcr --file Dockerfile . `
+
+
 `az acr run --registry myContainerRegistry008 --cmd '$Registry/sample/hello-world:v1' /dev/null`
 
 - sciagniecie repozytorium na loklana maszyne
