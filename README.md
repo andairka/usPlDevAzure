@@ -19,6 +19,8 @@ Projekt zawiera również plik konfigarcyjny bazy danych - plik docker-compose.
 
 - nalezy zanotować wartość `loginServer`, u mnie "loginServer": `uspldevazurcr.azurecr.io`
 
+Proszę się upewnić, ze Docker jest zainstalowany na maszynie, z której się łączymy.
+
 - logowanie do rejestru kontenerów
 `az acr login --name uspldevazurcr`
   
