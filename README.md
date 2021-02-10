@@ -17,10 +17,10 @@ Projekt zawiera również plik konfigarcyjny bazy danych - plik docker-compose.
 - stworzenie usługi ACR
 `az acr create --resource-group usPlDevAzure-group --name usPlDevAzurcr --sku Basic`
 
-- nalezy zanotować wartość `loginServer`, prawdopodobie `usPlDevAzurcr.azurecr.io`
+- nalezy zanotować wartość `loginServer`, u mnie "loginServer": `uspldevazurcr.azurecr.io`
 
 - logowanie do rejestru kontenerów
-`az acr login --name usPlDevAzurcr`
+`az acr login --name uspldevazurcr`
   
 ### WEBAPP
 - dane
