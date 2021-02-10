@@ -32,7 +32,8 @@ docker push uspldevazurcr.azurecr.io/uspldevazure-serverdc
 
 
 docker run --rm -it -p 3000:3000/tcp uspldevazure-serverdc:latest
-
+az acr credential show -n uspldevazurcr --query username 
+az acr credential show -n uspldevazurcr --query passwords
 
 az container create \
 --name uspldevazure-serverdc \
@@ -102,3 +103,35 @@ zanotuj `"administratorLogin": "myadmin"` oraz`"fullyQualifiedDomainName": "uspl
 ### DELETE
 - usuwanie resource group
 `az group delete --name usPlDevAzure-group`
+
+
+
+
+
+# NOTATKI ROBOCZE
+az ad sp create-for-rbac --name "usPlDevAzure-webapp" --role contributor  --scopes /subscriptions/22ac94c7-352f-4870-a811-7980744540b0/resourceGroups/usPlDevAzure-group/providers/Microsoft.Web/sites/usPlDevAzure-webapp/sourcecontrols/web  --sdk-auth
+
+az webapp deployment user set --user-name andairka88 --password Useruser
+az webapp create --name usPlDevAzure-webapp --resource-group usPlDevAzure-group --plan usPlDevAzure-webapp --runtime "node:12-lts"
+
+
+az webapp cors add --resource-group myResourceGroup --name usPlDevAzure-server --allowed-origins 'http://localhost:3000'
+az webapp deployment source config --name usPlDevAzure-webapp --resource-group usPlDevAzure-group --repo-url https://github.com/andairka/usPlDevAzure-webapp --branch main --repository-type github
+
+
+
+az postgres server firewall-rule create -g usPlDevAzure-group -s usPlDevAzure-serverdb -n allowip --start-ip-address 0.0.0.0 --end-ip-address 255.255.255.255
+
+
+
+az container create \
+--name uspldevazure-serverdc \
+--resource-group usPlDevAzure-group \
+--cpu 1 \
+--memory 1 \
+--dns-name-label uspldevazure-serverdc \
+--ports 80 \
+--image uspldevazurcr.azurecr.io/uspldevazure-serverdc \
+--registry-login-server uspldevazurcr.azurecr.io \
+--registry-username "usPlDevAzurcr" \
+--registry-password "ePSTSaHphlr2CuWra+htPj2qF4=qs17g"
