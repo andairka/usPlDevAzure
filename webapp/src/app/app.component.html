@@ -1,0 +1,19 @@
+<mat-toolbar color="primary" class="header">
+	<button mat-button (click)="sidenav.toggle()">Menu</button>
+	<div class="center">Header</div>
+</mat-toolbar>
+<mat-sidenav-container class="container">
+	<mat-sidenav #sidenav mode="side" opened>
+		<mat-nav-list>
+			<mat-list-item routerLink="/posts">Posts</mat-list-item>
+			<mat-list-item routerLink="/add-post">Add post</mat-list-item>
+			<mat-list-item routerLink="/signup">Signup</mat-list-item>
+		</mat-nav-list>
+	</mat-sidenav>
+	<mat-sidenav-content>
+		<ng-container>
+			<router-outlet></router-outlet>
+		</ng-container>
+	</mat-sidenav-content>
+</mat-sidenav-container>
+<mat-toolbar color="primary" class="footer">Footer</mat-toolbar>

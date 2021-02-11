@@ -1,0 +1,9 @@
+{
+  "/api/*": {
+    "target": "http://uspldevazure-serverdc.westeurope.azurecontainer.io:3000/",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {"^/api" : ""}
+  }
+}

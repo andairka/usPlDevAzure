@@ -1,0 +1,23 @@
+
+.container {
+    height: 80vh;
+}
+
+.footer {
+    height: 10vh;
+}
+
+.header {
+    height: 10vh;
+}
+.center {
+    justify-content: center;
+    margin-left: 20vw;
+}
+.example-form {
+    width: 30vw;
+}
+
+.example-full-width {
+    width: 50vw;
+}
