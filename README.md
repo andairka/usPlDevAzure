@@ -15,7 +15,7 @@ Projekt zawiera również plik konfigarcyjny bazy danych - plik docker-compose.
 
 ### POSTGRES
 - stworzenie usługi ACR
-`az acr create --resource-group usPlDevAzure-group --name usPlDevAzurcr --sku Basic` --admin-enabled true
+`az acr create --resource-group usPlDevAzure-group --name usPlDevAzurcr --sku Basic --admin-enabled true`
 
 - nalezy zanotować wartość `loginServer`, u mnie "loginServer": `uspldevazurcr.azurecr.io`
 
