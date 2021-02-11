@@ -1,138 +1,20 @@
 # usPlDevAzure
 ## Struktura projektu
-Obecne repozytorium [usPlDevAzure](https://github.com/andairka/usPlDevAzure), w znim znajduje się 
-- instrukcja, jak skonfigurować środowisko AZURE w ramach projektu, pliku README.md
-- plik konfigarcyjny bazy danych - plik docker-compose.
-- W repozytorium [usPlDevAzure-server](https://github.com/andairka/usPlDevAzure-server) znajduje się aplikacja serwerowa. Serwer aplikacjyny napisany w node.js oraz w frameworku Nest.js. Aplikacja przetwarza żądania przesłane z aplikacji webowej i korzystjąc z bazy danych zapisuje i pobiera dane.
-- W repozytorium [usPlDevAzure-webapp](https://github.com/andairka/usPlDevAzure-webapp) znajduje się aplikacje webowa napisana z wykorzystaniem Node.js i frameowrka Angular. Aplikacja odpowiedzialna jest za interakcje z użytkownikiem oraz za przesyłanie danych do części serwerowej.
+Obecne repozytorium [usPlDevAzure](https://github.com/andairka/usPlDevAzure), w znim znajduje się:
+- katalog [server] znajduje się aplikacja serwerowa. Serwer aplikacjyny napisany w node.js oraz w frameworku Nest.js. Aplikacja przetwarza żądania przesłane z aplikacji webowej i korzystjąc z bazy danych zapisuje i pobiera dane.
+- katalog [webapp] znajduje się aplikacje webowa napisana z wykorzystaniem Node.js i frameowrka Angular. Aplikacja odpowiedzialna jest za interakcje z użytkownikiem oraz za przesyłanie danych do części serwerowej.
+- skrypt [setup.sh] zawierający polecenia do wdrożenia aplikacji na portalu Azure
 
 ## Instrukcja
-`az login` logowanie do Azure Portal
+aby dokonać wdrożenia aplikacji nazleży pobrąć repozytorium (jest ono publicznie dostępne) i uruchomić skrypt [setup.sh], poleceniem `sh setup.sh`
 
-### RESOURCE GROUP
+na ekranie w kolejnych krokach dokonywana będzie konfiguracja i publikacja aplikacji.
 
-- stworzenie resource group
-`az group create --location westeurope --name usPlDevAzure-group`
-
-### POSTGRES
-- stworzenie usługi ACR
-`az acr create --resource-group usPlDevAzure-group --name usPlDevAzurcr --sku Basic --admin-enabled true`
-
-- nalezy zanotować wartość `loginServer`, u mnie "loginServer": `uspldevazurcr.azurecr.io`
-
-Proszę się upewnić, ze Docker jest zainstalowany na maszynie, z której się łączymy.
-
-- logowanie do rejestru kontenerów
-`az acr login --name uspldevazurcr`
-
-#### Server part
-docker build . -t uspldevazure-serverdc  
-docker tag uspldevazure-serverdc:latest uspldevazurcr.azurecr.io/uspldevazure-serverdc
-
-docker push uspldevazurcr.azurecr.io/uspldevazure-serverdc
+dodatkowo każdy krok opatrzony jest komentarzem, który będzie wyświetlany w konsoli terminala.
 
 
-docker run --rm -it -p 3000:3000/tcp uspldevazure-serverdc:latest
-az acr credential show -n uspldevazurcr --query username 
-az acr credential show -n uspldevazurcr --query passwords
-
-az container create \
---name uspldevazure-serverdc \
---resource-group usPlDevAzure-group \
---cpu 1 \
---memory 1 \
---dns-name-label uspldevazure-serverdc \
---ports 80 \
---image uspldevazurcr.azurecr.io/uspldevazure-serverdc:lastest \
---registry-login-server uspldevazurcr.azurecr.io \
---registry-username "${ContainerRegistryUsername}" \
---registry-password "${ContainerRegistryPassword}"
-
-docker run -it --rm -p 3000:3000/tcp uspldevazurcr.azurecr.io/uspldevazure-serverdc
-
-
-- sciagniecie repozytorium na loklana maszyne
-`git clone https://github.com/andairka/usPlDevAzure`
-
-- Puschujemy obrazy do acr
-`docker-compose -f us-pi-dev-azure-dc-11.yml push`
-  
-### BAZA DANYCH POSTGRES
-- Utwórz serwer Azure Database for PostgreSQL
-`az postgres server create --resource-group usPlDevAzure-group --name usPlDevAzure-serverdb  --location westeurope --admin-user myadmin --admin-password Az123456789 --sku-name GP_Gen5_2`
-
-zanotuj `"administratorLogin": "myadmin"` oraz`"fullyQualifiedDomainName": "uspldevazure-serverdb.postgres.database.azure.com"`
-- Dodaj zasade logowania - pozwolenie na adresy ip przychodzace
-`az postgres server firewall-rule create -g usPlDevAzure-group -s usPlDevAzure-serverdb -n allowip --start-ip-address 0.0.0.0 --end-ip-address 255.255.255.255`
-- stworzenie PostgreSQL bazy danych
-`az postgres db create --resource-group usPlDevAzure-group --server-name usPlDevAzure-serverdb --name uspldevazurdb`
-  
-### WEBAPP
-- dane
-`gitrepo=https://github.com/andairka/usPlDevAzure-webapp`
-`webappname=usPlDevAzure-webapp`
-
-- stworzenie App Service plan w darmowym poziomie.
-`az appservice plan create --name usPlDevAzure-webapp --resource-group usPlDevAzure-group --sku FREE`
-
-- stworzenie a web app.
-`az webapp create --name usPlDevAzure-webapp --resource-group usPlDevAzure-group --plan usPlDevAzure-webapp`
-
-- umieścić kod z publicznego repozytorium GitHub 
-`az webapp deployment source config --name usPlDevAzure-webapp --resource-group usPlDevAzure-group --repo-url https://github.com/andairka/usPlDevAzure-webapp --branch main --manual-integration`
-
-- aby wyświetlić aplikację webową, skopiuj wynik następującego polecenia do przeglądarki (można pominąc ten krok)
-`echo http://usPlDevAzure-webapp.azurewebsites.net`
-
-### SERVER
-- dane
-`gitrepo=https://github.com/andairka/usPlDevAzure-server`
-`webappname=usPlDevAzure-server`
-
-- stworzenie App Service plan w darmowym poziomie.
-`az appservice plan create --name usPlDevAzure-server --resource-group usPlDevAzure-group --sku FREE`
-
-- stworzenie a web app.
-`az webapp create --name usPlDevAzure-server --resource-group usPlDevAzure-group --plan usPlDevAzure-server`
-
-- umieścić kod z publicznego repozytorium GitHub 
-`az webapp deployment source config --name usPlDevAzure-server --resource-group usPlDevAzure-group --repo-url https://github.com/andairka/usPlDevAzure-server --branch main --manual-integration`
-
-- aby wyświetlić aplikację webową, skopiuj wynik następującego polecenia do przeglądarki (można pominąc ten krok)
-`echo http://usPlDevAzure-server.azurewebsites.net`
+UWAGA: nalezy pamiętać by usunąć nie używane zasoby
 
 ### DELETE
 - usuwanie resource group
 `az group delete --name usPlDevAzure-group`
-
-
-
-
-
-# NOTATKI ROBOCZE
-az ad sp create-for-rbac --name "usPlDevAzure-webapp" --role contributor  --scopes /subscriptions/22ac94c7-352f-4870-a811-7980744540b0/resourceGroups/usPlDevAzure-group/providers/Microsoft.Web/sites/usPlDevAzure-webapp/sourcecontrols/web  --sdk-auth
-
-az webapp deployment user set --user-name andairka88 --password Useruser
-az webapp create --name usPlDevAzure-webapp --resource-group usPlDevAzure-group --plan usPlDevAzure-webapp --runtime "node:12-lts"
-
-
-az webapp cors add --resource-group myResourceGroup --name usPlDevAzure-server --allowed-origins 'http://localhost:3000'
-az webapp deployment source config --name usPlDevAzure-webapp --resource-group usPlDevAzure-group --repo-url https://github.com/andairka/usPlDevAzure-webapp --branch main --repository-type github
-
-
-
-az postgres server firewall-rule create -g usPlDevAzure-group -s usPlDevAzure-serverdb -n allowip --start-ip-address 0.0.0.0 --end-ip-address 255.255.255.255
-
-
-
-az container create \
---name uspldevazure-serverdc \
---resource-group usPlDevAzure-group \
---cpu 1 \
---memory 1 \
---dns-name-label uspldevazure-serverdc \
---ports 80 \
---image uspldevazurcr.azurecr.io/uspldevazure-serverdc \
---registry-login-server uspldevazurcr.azurecr.io \
---registry-username "usPlDevAzurcr" \
---registry-password "ePSTSaHphlr2CuWra+htPj2qF4=qs17g"
